@@ -1,0 +1,85 @@
+{% extends "user/base.html" %}
+
+{% block breadcrumbs %}
+    {% set breadcrumbs = [
+    ['name' => 'Мои заказы', 'url' => url('shop_order_list')],
+    ['name' => order]
+    ] %}
+    {% parent %}
+{% endblock %}
+
+{% block content %}
+    <div class="b-row">
+        <div class="b-col b-col_small_12">
+            <h1 class="b-title">{{ order }}</h1>
+            <p class="b-caption">{{ order.created_at }}</p>
+
+            <h2 class="b-title">Контактные данные</h2>
+            <table class="b-table">
+                <tbody class="b-table__tbody">
+                <tr class="b-table__tr b-table__tr_tbody">
+                    <th class="b-table__th b-table__th_tbody">ФИО</th>
+                    <td class="b-table__td b-table__td_tbody">{{ customer.last_name }} {{ customer.first_name }} {{ customer.middle_name }}</td>
+                </tr>
+                <tr class="b-table__tr b-table__tr_tbody">
+                    <th class="b-table__th b-table__th_tbody">Электронная почта</th>
+                    <td class="b-table__td b-table__td_tbody">{{ customer.email }}</td>
+                </tr>
+                <tr class="b-table__tr b-table__tr_tbody">
+                    <th class="b-table__th b-table__th_tbody">Телефон</th>
+                    <td class="b-table__td b-table__td_tbody">{{ customer.phone }}</td>
+                </tr>
+                <tr class="b-table__tr b-table__tr_tbody">
+                    <th class="b-table__th b-table__th_tbody">Адрес доставки</th>
+                    <td class="b-table__td b-table__td_tbody">{{ customer.country }} {{ customer.region }} {{ customer.city }} {{ customer.address }} {{ customer.zip_code }}</td>
+                </tr>
+                </tbody>
+            </table>
+
+            <table class="b-table">
+                <thead class="b-table__thead">
+                <tr class="b-table__tr b-table__tr_tbody">
+                    <th class="b-table__th b-table__th_thead">Название</th>
+                    <th class="b-table__th b-table__th_thead">Стоимость</th>
+                    <th class="b-table__th b-table__th_thead">Количество</th>
+                </tr>
+                </thead>
+                <tbody class="b-table__tbody">
+                {% for orderProduct in orderProducts %}
+                    <tr class="b-table__tr b-table__tr_tbody">
+                        <td class="b-table__td b-table__td_tbody">
+                            <p>
+                                {{ orderProduct.name }}
+                                <br/>
+                                {% for name, value in orderProduct.getParameters() %}
+                                    {{ name }}: {{ value }}{% if not loop.last %}, {% endif %}
+                                {% endfor %}
+                            </p>
+                        </td>
+                        <td class="b-table__td b-table__td_tbody">
+                            {{ orderProduct.price|number_format(2, '.', ' ') }} руб.
+                        </td>
+                        <td class="b-table__td b-table__td_tbody">
+                            {{ orderProduct.quantity }}
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+
+            <div class="b-divider b-divider_divider"></div>
+
+            <h3>Комментарии</h3>
+
+            {% for comment in comments %}
+                {% include "rise/order/comment/_comment.html" %}
+            {% endfor %}
+
+            {{ pagination_render(pager)|safe }}
+
+            {{ form_start(form)|safe }}
+            {{ form_row(form.children.comment, ['attr' => ['class' => 'b-input__textarea']])|safe }}
+            {{ form_end(form)|safe }}
+        </div>
+    </div>
+{% endblock %}

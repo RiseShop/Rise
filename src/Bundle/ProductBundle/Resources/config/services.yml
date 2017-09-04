@@ -1,0 +1,40 @@
+services:
+    rise.bundle.product.admin.product:
+        class: Rise\Bundle\ProductBundle\Admin\ProductAdmin
+        tags:
+            - { name: admin.admin, slug: rise_product_product }
+
+    rise.bundle.product.admin.variant:
+        class: Rise\Bundle\ProductBundle\Admin\VariantAdmin
+        tags:
+            - { name: admin.admin, slug: rise_product_variant }
+
+    rise.bundle.product.admin.category:
+        class: Rise\Bundle\ProductBundle\Admin\CategoryAdmin
+        tags:
+            - { name: admin.admin, slug: rise_product_category }
+
+    rise.bundle.product.admin.entity:
+        class: Rise\Bundle\ProductBundle\Admin\EntityAdmin
+        tags:
+            - { name: admin.admin, slug: rise_product_entity }
+
+    rise.bundle.product.admin.discount:
+        class: Rise\Bundle\ProductBundle\Admin\DiscountAdmin
+        tags:
+            - { name: admin.admin, slug: rise_product_discount }
+
+    rise.bundle.product.admin.collection:
+        class: Rise\Bundle\ProductBundle\Admin\CollectionAdmin
+        tags:
+            - { name: admin.admin, slug: rise_product_collection }
+
+    rise.bundle.product.admin.value:
+        class: Rise\Bundle\ProductBundle\Admin\ValueAdmin
+        tags:
+            - { name: admin.admin, slug: rise_product_value }
+
+    rise.bundle.product.admin.attribute:
+        class: Rise\Bundle\ProductBundle\Admin\AttributeAdmin
+        tags:
+            - { name: admin.admin, slug: rise_product_attribute }

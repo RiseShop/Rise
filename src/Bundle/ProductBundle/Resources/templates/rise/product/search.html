@@ -1,0 +1,40 @@
+{% extends "shop/base.html" %}
+
+{% block breadcrumbs %}
+    {% set breadcrumbs = [
+        ['name' => 'Поиск']
+    ] %}
+    {% parent %}
+{% endblock %}
+
+{% block content %}
+    <div class="b-wrapper">
+        <div class="b-row">
+            <div class="b-col b-col_small_12">
+                <h1 class="b-title">Поиск по запросу: {{ request.query.get('q') }}</h1>
+            </div>
+            <div class="b-col b-col_small_3">
+                {% include "rise/product/_sidebar.html" %}
+            </div>
+            <div class="b-col b-col_small_9">
+                {% if variants|length > 0 %}
+                    <p>Найдено товаров: {{ pager.getTotal() }}</p>
+
+                    <div class="b-divider b-divider_divider"></div>
+
+                    <ul class="b-product-list">
+                        {% for variant in variants %}
+                            <li class="b-product-item b-product-item_four">
+                                {% include "rise/product/_product.html" with ['variant' => variant] %}
+                            </li>
+                        {% endfor %}
+                    </ul>
+
+                    {{ pagination_render(pager)|safe }}
+                {% else %}
+                    <p>По вашему запросу ничего не найдено</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+{% endblock %}

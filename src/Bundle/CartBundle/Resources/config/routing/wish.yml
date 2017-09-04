@@ -1,0 +1,14 @@
+rise_wish_list:
+    path: /
+    defaults:
+        _controller: CartBundle:Wish:list
+
+rise_wish_add:
+    path: /add
+    defaults:
+        _controller: CartBundle:Wish:add
+
+rise_wish_remove:
+    path: /remove
+    defaults:
+        _controller: CartBundle:Wish:remove

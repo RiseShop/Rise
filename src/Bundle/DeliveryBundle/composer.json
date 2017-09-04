@@ -1,0 +1,6 @@
+{
+  "name": "rise/delivery-bundle",
+  "require": {
+    "rise/payment-bundle": "~1.0"
+  }
+}

@@ -1,0 +1,20 @@
+rise_payment_purchase:
+    path: /purchase/{id}
+    defaults:
+        _controller: PaymentBundle:Payment:purchase
+    requirements:
+        id: \d+
+
+rise_payment_validate:
+    path: /validate/{id}
+    defaults:
+        _controller: PaymentBundle:Payment:validate
+    requirements:
+        id: \d+
+
+rise_payment_complete:
+    path: /complete/{id}
+    defaults:
+        _controller: PaymentBundle:Payment:complete
+    requirements:
+        id: \d+

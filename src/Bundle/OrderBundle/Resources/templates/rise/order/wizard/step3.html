@@ -1,0 +1,100 @@
+{% extends request.isXmlHttpRequest() ? "rise/order/wizard/step_base_ajax.html" : "rise/order/wizard/step_base.html" %}
+
+{% block step_content %}
+    <div class="step-content">
+        {{ form_start(form)|safe }}
+        {% for key, child in form %}
+            {% if key == 'next' or key == 'prev' %}
+                {% continue %}
+            {% endif %}
+            {{ form_row(child)|safe }}
+        {% endfor %}
+        <div class="b-order-buttons">
+            <div class="b-order-buttons__prev">
+                {{ form_widget(form.children.prev)|safe }}
+            </div>
+            <div class="b-order-buttons__next">
+                {{ form_widget(form.children.next)|safe }}
+            </div>
+        </div>
+        {{ form_end(form)|safe }}
+
+        {% comment %}
+        {{ form_start(form)|safe }}
+
+        <div class="b-form__row">
+            {{ form_label(form.children.delivery, null, ['label_attr' => ['class' => 'b-input__label']])|safe }}
+            <div class="b-select">
+                {{ form_widget(form.children.delivery, ['attr' => ['class' => 'b-select__select']])|safe }}
+            </div>
+        </div>
+        <div class="b-form__row">
+            <div class="b-input">
+                {{ form_label(form.children.country, null, ['label_attr' => ['class' => 'b-input__label']])|safe }}
+                {{ form_widget(form.children.country, ['attr' => ['class' => 'b-input__input']])|safe }}
+            </div>
+        </div>
+        <div class="b-form__row">
+            <div class="b-input">
+                {{ form_label(form.children.region, null, ['label_attr' => ['class' => 'b-input__label']])|safe }}
+                {{ form_widget(form.children.region, ['attr' => ['class' => 'b-input__input']])|safe }}
+            </div>
+        </div>
+        <div class="b-form__row">
+            <div class="b-input">
+                {{ form_label(form.children.city, null, ['label_attr' => ['class' => 'b-input__label']])|safe }}
+                {{ form_widget(form.children.city, ['attr' => ['class' => 'b-input__input']])|safe }}
+            </div>
+        </div>
+        <div class="b-form__row">
+            <div class="b-input">
+                {{ form_label(form.children.zip_code, null, ['label_attr' => ['class' => 'b-input__label']])|safe }}
+                {{ form_widget(form.children.zip_code, ['attr' => ['class' => 'b-input__input']])|safe }}
+            </div>
+        </div>
+        <div class="b-form__row">
+            <div class="b-input">
+                {{ form_label(form.children.address, null, ['label_attr' => ['class' => 'b-input__label']])|safe }}
+                {{ form_widget(form.children.address, ['attr' => ['class' => 'b-input__textarea']])|safe }}
+            </div>
+        </div>
+        <div class="b-order-buttons">
+            <div class="b-order-buttons__prev">
+                {{ form_widget(form.children.prev)|safe }}
+            </div>
+            <div class="b-order-buttons__next">
+                {{ form_widget(form.children.next)|safe }}
+            </div>
+        </div>
+        {{ form_end(form)|safe }}
+        {% endcomment %}
+
+        {% comment %}
+        <form action="#">
+            <div class="radio">
+                <input type="radio" id="salon" name="salon">
+                <label for="salon">Забрать в салоне</label>
+            </div>
+            <a href="#" class="link">Ближайшие к вам салоны</a>
+            <div class="radio">
+                <input type="radio" id="pochta" name="salon">
+                <label for="pochta" class="clearfix"><span class="left">Почтой России цена: </span><span
+                            class="price right">300 Р</span></label>
+            </div>
+            <div class="radio">
+                <input type="radio" id="curier" name="salon">
+                <label for="curier" class="clearfix"><span class="left">Курьером на дом цена: </span><span
+                            class="price right">800 Р</span></label>
+            </div>
+            <p class="delivery">Стоимость доставки: <span>Бесплатно</span></p>
+            <p class="delivery">Доставим через: <span>8 дней (24.08.2016)</span></p>
+            <p class="sum">Доставка: <span>750 Р</span></p>
+            <p class="sum">Итог: <span>18200 Р</span></p>
+            <input type="submit" class="button_red" value="далее">
+            <p class="bottom-text">Нажимая на кнопку “Отправить заказ”, Вы полностью оглашаетесь с <a href="#">правилами
+                    и условиями возврата.</a></p>
+        </form>
+        {% endcomment %}
+    </div>
+{% endblock %}
+

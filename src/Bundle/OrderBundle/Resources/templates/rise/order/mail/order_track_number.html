@@ -1,0 +1,10 @@
+{% extends "mail/template.html" %}
+
+{% block content %}
+    <h1>Вашему заказу №{{ order.id }} присвоен номер отслеживания</h1>
+
+    <p>Номер отслеживания:</p>
+    <p><strong>{{ order.track_number }}</strong></p>
+
+    <p><a class="b-button" href="{{ order_url }}">Перейти к заказу</a></p>
+{% endblock %}

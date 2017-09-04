@@ -1,0 +1,62 @@
+{% extends "user/base.html" %}
+
+{% block breadcrumbs %}
+    {% set breadcrumbs = [
+    ['name' => 'Личный кабинет']
+    ] %}
+    {% parent %}
+{% endblock %}
+
+{% block content %}
+    <div class="b-row">
+        <div class="b-col b-col_small_12">
+            <h1 class="b-title">Мои заказы</h1>
+
+            {% if orders|length > 0 %}
+                <table class="b-table">
+                    <thead class="b-table__thead">
+                    <tr class="b-table__tr b-table__tr_thead">
+                        <th class="b-table__th b-table__th_thead">
+                            Номер заказа
+                        </th>
+                        <th class="b-table__th b-table__th_thead">
+                            Статус
+                        </th>
+                        <th class="b-table__th b-table__th_thead">
+                            Сумма
+                        </th>
+                        <th class="b-table__th b-table__th_thead">
+                            Дата оформления
+                        </th>
+                    </tr>
+                    </thead>
+
+                    <tbody class="b-table__tbody">
+                    {% for order in orders %}
+                        <tr class="b-table__tr b-table__tr_tbody">
+                            <td class="b-table__td b-table__td_tbody">
+                                <a href="{{ url('shop_order_view', ['id' => order.id, 'token' => order.token]) }}">
+                                    {{ order }}
+                                </a>
+                            </td>
+                            <td class="b-table__td b-table__td_tbody">
+                                {{ order.status }}
+                            </td>
+                            <td class="b-table__td b-table__td_tbody">
+                                {{ order.getPriceTotal()|number_format(2, '.', ' ') }} руб.
+                            </td>
+                            <td class="b-table__td b-table__td_tbody">
+                                {{ order.created_at }}
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+
+                {{ pagination_render(pager)|safe }}
+            {% else %}
+                <p>Заказы отсутствуют</p>
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}

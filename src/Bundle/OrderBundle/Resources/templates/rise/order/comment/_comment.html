@@ -1,0 +1,21 @@
+<div class="b-order-comment">
+    <div class="b-row">
+        <div class="b-col b-col_small_2">
+            <div class="b-order-comment__label b-order-comment__label_{{ comment.user_id == user.id ? 'green' : 'red' }}">
+                {{ comment.user_id == user.id ? 'Я' : 'Менеджер' }}
+            </div>
+            <div class="b-order-comment__info">Время публикации:<br/>{{ comment.created_at }}</div>
+        </div>
+        <div class="b-col b-col_small_10">
+            <div class="b-order-comment__content">
+                {{ comment.comment }}
+            </div>
+            {% if comment.file %}
+                <div class="b-order-comment__file">
+                    <div class="b-caption b-caption_top">Прикрепленный файл:</div>
+                    <a href="{{ asset(comment.file, 'media') }}">{{ comment.file|basename }}</a>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</div>

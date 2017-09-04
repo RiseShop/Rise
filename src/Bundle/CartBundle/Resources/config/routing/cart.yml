@@ -1,0 +1,29 @@
+rise_cart_list:
+    path: /
+    defaults:
+        _controller: CartBundle:Cart:list
+
+rise_cart_add:
+    path: /add
+    defaults:
+        _controller: CartBundle:Cart:add
+
+rise_cart_fast:
+    path: /fast/{slug}
+    defaults:
+        _controller: CartBundle:Cart:fast
+
+rise_cart_quick:
+    path: /quick
+    defaults:
+        _controller: CartBundle:Cart:quick
+
+rise_cart_quantity:
+    path: /quantity
+    defaults:
+        _controller: CartBundle:Cart:quantity
+
+rise_cart_remove:
+    path: /remove
+    defaults:
+        _controller: CartBundle:Cart:remove

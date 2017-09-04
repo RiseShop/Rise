@@ -1,0 +1,5 @@
+payment.admin.attempt.list: 'Попытки оплаты'
+
+payment.admin.payment.list: 'Платежные шлюзы'
+payment.admin.payment.create: 'Добавление платежного шлюза'
+payment.admin.payment.update: 'Редактирование платежного шлюза: %name%'

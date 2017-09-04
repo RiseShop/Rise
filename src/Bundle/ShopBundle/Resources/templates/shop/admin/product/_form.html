@@ -1,0 +1,31 @@
+{{ form_render(form)|safe }}
+
+{% comment %}
+{{ form_start(form)|safe }}
+<div class="row collapse">
+    {% set variant = form.children.variant %}
+    <div class="columns small-8">
+        {{ form_row(form.children.name)|safe }}
+        {{ form_row(form.children.product_class)|safe }}
+        {{ form_row(form.children.category)|safe }}
+        <hr>
+        {{ form_row(variant.children.description_short)|safe }}
+        {{ form_row(variant.children.description)|safe }}
+        <hr>
+        {{ form_row(variant.children.status)|safe }}
+    </div>
+    <div class="columns small-4">
+        <div class="b-form-sidebar">
+            {{ form_row(variant.children.price)|safe }}
+            {{ form_row(variant.children.sku)|safe }}
+            <hr>
+            {{ form_row(variant.children.available_for_sale)|safe }}
+            {{ form_row(variant.children.inventory_tracking)|safe }}
+            {{ form_row(variant.children.quantity)|safe }}
+            <hr>
+            {{ form_row(variant.children.weight)|safe }}
+        </div>
+    </div>
+</div>
+{{ form_end(form)|safe }}
+{% endcomment %}

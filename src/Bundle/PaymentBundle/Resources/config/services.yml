@@ -1,0 +1,29 @@
+parameters:
+    rise.payment.test_mode: false
+
+services:
+    rise.bundle.payment.factory:
+        class: Rise\Component\Payment\Factory
+        arguments: [ '%rise.payment.test_mode%' ]
+
+    rise.bundle.payment.admin.payment:
+        class: Rise\Bundle\PaymentBundle\Admin\PaymentAdmin
+        tags:
+            - { name: admin.admin, slug: rise_payment_payment }
+
+    rise.bundle.payment.admin.attempt:
+        class: Rise\Bundle\PaymentBundle\Admin\AttemptAdmin
+        tags:
+            - { name: admin.admin, slug: rise_payment_attempt }
+
+    rise.bundle.payment.form.payment:
+        class: Rise\Bundle\PaymentBundle\Form\PaymentForm
+        arguments:
+            - '@rise.bundle.payment.factory'
+        tags:
+            - { name: form.type }
+
+    rise.bundle.payment.gateway.courier:
+        class: Rise\Bundle\PaymentBundle\Payment\Example
+        tags:
+            - { name: payment.gateway }

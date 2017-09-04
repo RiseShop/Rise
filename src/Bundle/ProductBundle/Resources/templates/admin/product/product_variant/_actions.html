@@ -1,0 +1,9 @@
+{% extends "admin/admin/_actions.html" %}
+
+{% block actions %}
+    <a href="{{ admin.getAdminUrl('images', ['pk' => model.pk]) }}">
+        <i class="fa fa-picture-o" aria-hidden="true"></i>
+    </a>
+
+    {% parent %}
+{% endblock %}

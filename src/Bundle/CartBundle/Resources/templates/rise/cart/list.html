@@ -1,0 +1,106 @@
+{% extends request.isXmlHttpRequest() ? "ajax.html" : "shop/base.html" %}
+
+{% block breadcrumbs %}
+    {% set breadcrumbs = [['name' => 'Корзина']] %}
+    {% parent %}
+{% endblock %}
+
+{% block content %}
+    <div class="b-wrapper cart-wrapper">
+        <div class="b-row">
+            <div class="b-col b-col_small_12">
+                <h1 class="b-title">Корзина</h1>
+
+                {% if cart.getPositions()|length > 0 %}
+                    <table class="b-cart-table">
+                        {% for position in cart().getPositions() %}
+                            {% set product = position.getProduct() %}
+                            <tr>
+                                <td class="number-td">
+                                    <p class="number">{{ loop.index }}</p>
+                                </td>
+                                <td class="img-td">
+                                    {% if product.image.image %}
+                                        <img src={{ product.image.image|imagine_filter('product_thumb') }}>
+                                    {% endif %}
+                                </td>
+                                <td class="text-td">
+                                    <p class="text">
+                                        <a href="{{ url('shop_product_variant_view', ['slug' => product.slug]) }}">{{ product }}</a>
+                                    </p>
+                                </td>
+                                <td class="article-td">
+                                    <p class="article">Артикул: <span>{{ product.sku }}</span></p>
+                                </td>
+                                <td class="size-td">
+                                    {% comment %}
+                                    <div class="size clearfix">
+                                        <p class="size-title left">Размер:</p>
+                                        <select name="size" id="size" class="right">
+                                            {% for opt in item.size %}
+                                                <option value="1">{{ opt }}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                    {% endcomment %}
+                                    <div class="amt clearfix">
+                                        <p class="size-title left">Кол-во:</p>
+
+                                        <div class="b-counter">
+                                            <a href="{{ url('rise_cart_quantity') }}"
+                                               data-key="{{ position.unique_id }}"
+                                               data-cart-operation="inc"
+                                               data-html-selector=".cart-wrapper"
+                                               data-price-selector=".b-header-settings__link_cart span"
+                                               data-cart-counter
+                                               data-cart-selector=".b-counter__text"
+                                               class="b-counter__operation b-counter__operation_inc">+</a>
+                                            <span class="b-counter__text">{{ position.getQuantity() }}</span>
+                                            <a href="{{ url('rise_cart_quantity') }}"
+                                               data-key="{{ position.unique_id }}"
+                                               data-cart-operation="dec"
+                                               data-html-selector=".cart-wrapper"
+                                               data-price-selector=".b-header-settings__link_cart span"
+                                               data-cart-counter
+                                               data-cart-selector=".b-counter__text"
+                                               class="b-counter__operation b-counter__operation_dec">-</a>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td class="price-td">
+                                    <a href="{{ url('shop_cart_remove') }}"
+                                       data-cart-remove
+                                       data-price-selector=".b-header-settings__link_cart span"
+                                       data-html-selector=".cart-wrapper"
+                                       data-key="{{ position.unique_id }}" class="delete">Удалить</a>
+                                    <p class="price">{{ position.getPrice() }} Р</p>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </table>
+
+                    <p class="b-cart__total">Итог: <span class="b-cart__price">{{ cart().getTotalPrice() }} Р</span></p>
+
+                    <div class="b-row">
+                        <div class="b-col b-col_small_7">
+                            <a class="b-cart__regulation_link" href="#regulations">Правила
+                                оформления заказа</a>
+                        </div>
+                        <div class="b-col b-col_small_5">
+                            <div class="m-text_right">
+                                <a href="{{ url('rise_cart_quick') }}" data-modal class="b-button b-button_white b-button_big">Купить в 1 клик</a>
+                                <a href="{{ url('shop_order_wizard') }}" class="b-button b-button_red b-button_big">Оформить заказ</a>
+                            </div>
+                        </div>
+                    </div>
+                {% else %}
+                    <div>Ваша корзина пуста</div>
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="hide">
+            {% include "topaz/_cart_info.html" %}
+        </div>
+    </div>
+{% endblock %}

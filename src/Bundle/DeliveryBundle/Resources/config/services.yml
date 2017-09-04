@@ -1,0 +1,25 @@
+services:
+    rise.bundle.delivery.factory:
+        class: Rise\Component\Delivery\Factory
+
+    rise.bundle.delivery.form.delivery.abstract:
+        abstract: true
+        arguments:
+            - '@rise.bundle.delivery.factory'
+
+    rise.bundle.delivery.form.delivery:
+        class: Rise\Bundle\DeliveryBundle\Form\DeliveryForm
+        parent: rise.bundle.delivery.form.delivery.abstract
+        tags:
+            - { name: form.type }
+
+    rise.bundle.delivery.admin.delivery:
+        class: Rise\Bundle\DeliveryBundle\Admin\DeliveryAdmin
+        tags:
+            - { name: admin.admin, slug: rise_delivery_delivery }
+
+    rise.bundle.delivery.form.type.delivery:
+        parent: rise.bundle.delivery.form.delivery.abstract
+        class: Rise\Bundle\DeliveryBundle\Form\Type\DeliveryType
+        tags:
+            - { name: form.type }

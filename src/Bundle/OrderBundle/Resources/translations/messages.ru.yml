@@ -1,0 +1,7 @@
+order.admin.status.list: 'Список статусов'
+
+order.admin.customer.list: 'Список клиентов'
+order.admin.customer.create: 'Добавить клиента'
+order.admin.customer.update: 'Редактирование клиента: %name%'
+
+order.admin.order.list: 'Список заказов'

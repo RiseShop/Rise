@@ -1,0 +1,23 @@
+{% extends "rise/order/wizard/step_base.html" %}
+
+{% block step_content %}
+    <div class="step-content">
+        {{ form_start(form)|safe }}
+        {% for key, child in form %}
+            {% if key == 'finish' or key == 'prev' %}
+                {% continue %}
+            {% endif %}
+            {{ form_row(child)|safe }}
+        {% endfor %}
+        <div class="b-order-buttons">
+            <div class="b-order-buttons__prev">
+                {{ form_widget(form.children.prev)|safe }}
+            </div>
+            <div class="b-order-buttons__next">
+                {{ form_widget(form.children.finish)|safe }}
+            </div>
+        </div>
+        {{ form_end(form)|safe }}
+    </div>
+{% endblock %}
+

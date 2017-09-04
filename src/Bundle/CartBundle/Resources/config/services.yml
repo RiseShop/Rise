@@ -1,0 +1,38 @@
+services:
+    rise.bundle.cart.event_listener.cart:
+        class: Rise\Bundle\CartBundle\EventListener\CartListener
+        arguments: [ '@security.token_storage', '@rise.bundle.cart.component.cart' ]
+        tags:
+            - { name: kernel.event_listener, event: kernel.controller, method: onKernelController }
+
+    rise.bundle.cart.template_library.cart:
+        class: Rise\Bundle\CartBundle\Library\CartLibrary
+        arguments: [ '@rise.bundle.cart.component.cart' ]
+        tags:
+            - { name: template.library }
+
+    rise.bundle.cart.template_library.wish:
+        class: Rise\Bundle\CartBundle\Library\WishLibrary
+        arguments: [ '@security.token_storage' ]
+        tags:
+            - { name: template.library }
+
+    rise.bundle.cart.component.cart:
+        class: Rise\Component\Cart\Cart
+        arguments: [ '@session' ]
+
+    rise.bundle.cart.normalizer.cart:
+        class: Rise\Bundle\CartBundle\Normalizer\CartNormalizer
+        arguments: [ '@security.token_storage' ]
+        tags:
+            - { name: serializer.normalizer }
+
+    rise.bundle.cart.admin.cart:
+        class: Rise\Bundle\CartBundle\Admin\CartAdmin
+        tags:
+            - { name: admin.admin, slug: rise_cart_cart }
+
+    rise.bundle.cart.admin.wish:
+        class: Rise\Bundle\CartBundle\Admin\WishAdmin
+        tags:
+            - { name: admin.admin, slug: rise_cart_wish }

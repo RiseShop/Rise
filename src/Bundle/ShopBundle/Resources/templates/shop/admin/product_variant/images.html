@@ -1,0 +1,51 @@
+{% extends "admin/base.html" %}
+
+{% block breadcrumbs %}
+    {% set breadcrumbs = breadcrumbs %}
+    {% parent %}
+{% endblock %}
+
+{% block content %}
+    <div class="b-content">
+        <h1>{{ t('shop.images.title') }}</h1>
+
+        <p>
+            <a href="{{ admin.getAdminUrl('update', ['pk' => model.pk]) }}"
+               class="ui button">
+                {{ t('admin.action.update') }}
+            </a>
+            {% if method_exists(model, 'getAbsoluteUrl') %}
+                <a href="{{ model.getAbsoluteUrl() }}" target="_blank"
+                   class="ui button tiny basic">
+                    {{ t('admin.open_at_site') }}
+                </a>
+            {% endif %}
+        </p>
+
+        <div class="images--container">
+            <div id="dropzone">{{ t('shop.admin.images.drop_zone_text') }}</div>
+            <div id="progress" class="hide">
+                <div class="progress-state">0%</div>
+            </div>
+
+            <div class="file-manager__upload">
+                <label for="fileupload">{{ t('shop.admin.images.upload_text') }}</label>
+                <input class="fileupload"
+                       type="file" name="files[]"
+                       multiple>
+            </div>
+
+            {% if images|length > 0 %}
+                <ul class="small-block-grid-10">
+                    {% for image in images %}
+                        <li>
+                            <img src="{{ image.image|imagine_filter('admin_image') }}" alt="{{ image.id }}"/>
+                        </li>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                {{ t('shop.admin.images.empty') }}
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}

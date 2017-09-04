@@ -1,0 +1,12 @@
+<p>
+    Стоимость доставки:
+    {% if order.getPriceDelivery() > 0 %}
+        {{ order.getPriceDelivery()|number_format(2, '.', ' ') }} руб.
+    {% else %}
+        Не указана
+    {% endif %}
+</p>
+{% if order.getPriceDiscount() > 0 %}
+    <p>Сумма скидки: {{ order.getPriceDiscount()|number_format(2, '.', ' ') }} руб.</p>
+{% endif %}
+<p>Сумма итого: {{ order.getPrice()|number_format(2, '.', ' ') }} руб.</p>

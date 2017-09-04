@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <div class="b-wrapper">
+        <div class="b-row">
+            <div class="b-col b-col_small_12">
+                <h1 class="b-title">Оформление заказа</h1>
+
+                {% block steps %}
+                    <ul class="b-order-steps">
+                        <li class="b-order-steps__step {% if step == 1 %}b-order-steps__step_active{% endif %}">
+                            <span class="b-order-steps__text">Ваши контакты</span>
+                        </li>
+                        <li class="b-order-steps__step {% if step == 2 %}b-order-steps__step_active{% endif %}">
+                            <span class="b-order-steps__text">Доставка</span>
+                        </li>
+                        <li class="b-order-steps__step {% if step == 3 %}b-order-steps__step_active{% endif %}">
+                            <span class="b-order-steps__text">Оплата</span>
+                        </li>
+                        <li class="b-order-steps__step {% if step == 4 %}b-order-steps__step_active{% endif %}">
+                            <span class="b-order-steps__text">Заказ</span>
+                        </li>
+                    </ul>
+                {% endblock %}
+
+                {% block step_content %}{% endblock %}
+            </div>
+        </div>
+    </div>
+{% endblock %}

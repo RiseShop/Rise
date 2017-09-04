@@ -1,0 +1,16 @@
+shop_order_wizard:
+    path: /wizard/{step}
+    defaults: { _controller: OrderBundle:Wizard:dispatch, step: 1 }
+    requirements:
+        step: \d+
+
+shop_order_list:
+    path: /
+    defaults: { _controller: OrderBundle:Order:list }
+
+shop_order_view:
+    path: /{id}/{token}
+    defaults: { _controller: OrderBundle:Order:view }
+    requirements:
+        token: "[a-zA-Z0-9-_/]{36}"
+        id: \d+

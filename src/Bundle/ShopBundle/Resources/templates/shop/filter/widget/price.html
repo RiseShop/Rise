@@ -1,0 +1,16 @@
+<div class="form-row">
+    <label for="filter_price_min">Цена:</label>
+    <div class="row">
+        <div class="columns small-6">
+            <input id="filter_price_min" type="text"
+                   value="{{ minValue }}"
+                   oninput="this.value=this.value.replace(/[^\d]/,'')"
+                   name="filter[price][]" placeholder="{{ min }}"/>
+        </div>
+        <div class="columns small-6">
+            <input type="text" name="filter[price][]"
+                   oninput="this.value=this.value.replace(/[^\d]/,'')"
+                   value="{{ maxValue }}" placeholder="{{ max }}"/>
+        </div>
+    </div>
+</div>

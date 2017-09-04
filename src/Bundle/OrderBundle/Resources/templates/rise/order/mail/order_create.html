@@ -1,0 +1,30 @@
+{% extends "mail/template.html" %}
+
+{% block content %}
+    <h1>Заказ №{{ order.id }} успешно оформлен</h1>
+
+    <p>Благодарим вас за заказ</p>
+    <p>В ближайшее время мы проверим ваш заказ и свяжемся с вами.</p>
+
+    <hr>
+
+    <h3>Статус: {{ order.status }}</h3>
+
+    <hr>
+
+    <h3>Получатель</h3>
+    {% include "rise/order/mail/_customer.html" %}
+
+    <hr>
+
+    <h3>Товары</h3>
+    {% include "rise/order/mail/_products.html" %}
+
+    <hr>
+
+    {% include "rise/order/mail/_summary.html" %}
+
+    <hr>
+
+    <p><a class="b-button" href="{{ order_url }}">Перейти к заказу</a></p>
+{% endblock %}

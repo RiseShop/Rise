@@ -1,0 +1,53 @@
+<div class="b-order">
+    {{ pager.render(admin.findTemplate('_pager.html'))|safe }}
+
+    {% for model in models %}
+        <div class="b-order__item">
+            <div class="b-order__header">
+                <div class="b-order__time">
+                    {{ model.created_at }}
+                </div>
+                <div class="b-order__status" style="background-color: {{ model.status.color }}">
+                    {{ model.status }}
+                </div>
+                <a class="b-order__title" href="{{ admin.getAdminUrl('view', ['pk' => model.pk]) }}?pk={{ model.pk }}">
+                    {{ model }}
+                </a>
+            </div>
+
+            <div class="b-order__content">
+                <p>Сумма: {{ model.price }}</p>
+                <p>Клиент: {{ model.customer }}</p>
+                <p>Способ доставки: {{ model.delivery }}</p>
+                <p>Способ оплаты: {{ model.payment }}</p>
+            </div>
+
+            <div class="b-order__panel">
+                {% set modelUrl = admin.getAbsoluteUrl(model) %}
+                {% if modelUrl %}
+                    <a class="b-order__panel-link b-button" target="_blank" href="{{ modelUrl }}">
+                        <i class="fa fa-search" aria-hidden="true"></i>
+                        {{ t('shop.admin.order.open_at_site') }}
+                    </a>
+                {% endif %}
+
+                {% if admin.can('info') %}
+                    <a class="b-order__panel-link b-button b-button_primary"
+                       href="{{ admin.getAdminUrl('info', ['pk' => model.pk]) }}">
+                        <i class="fa fa-file-text-o" aria-hidden="true"></i>
+                        {{ t('shop.admin.order.view') }}
+                    </a>
+                {% endif %}
+
+                <a class="b-order__panel-link b-button basic"
+                   data-confirm="{{ t('shop.admin.archive_confirm', [], 'AdminBundle') }}"
+                   href="{{ admin.getAdminUrl('archive', ['pk' => model.pk]) }}">
+                    <i class="fa fa-trash" aria-hidden="true"></i>
+                    {{ t('shop.admin.order.archive') }}
+                </a>
+            </div>
+        </div>
+    {% endfor %}
+
+    {{ pager.render(admin.findTemplate('_pager.html'))|safe }}
+</div>

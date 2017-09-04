@@ -1,0 +1,24 @@
+services:
+    geo.admin.city:
+        class: Rise\Bundle\GeoBundle\Admin\CityAdmin
+        tags:
+            - { name: admin.admin, slug: geo_city }
+
+    geo.admin.country:
+        class: Rise\Bundle\GeoBundle\Admin\CountryAdmin
+        tags:
+            - { name: admin.admin, slug: geo_country }
+
+    geo.admin.region:
+        class: Rise\Bundle\GeoBundle\Admin\RegionAdmin
+        tags:
+            - { name: admin.admin, slug: geo_region }
+
+    geo.geo:
+        class: Rise\Bundle\GeoBundle\Geo\Geo
+
+    geo.geo_listener:
+        class: Rise\Bundle\GeoBundle\EventListener\GeoListener
+        arguments: [ '@geo.geo' ]
+        tags:
+            - { name: kernel.event_listener, event: kernel.controller, method: onKernelController }

@@ -1,0 +1,45 @@
+<div class="b-product">
+    <div class="b-product__header clearfix">
+        {% if variant.discount %}
+            <p class="b-product__percent">{{ variant.discount.discount }}%</p>
+        {% endif %}
+        <div class="b-product-like">
+            <div class="b-product-like__like"></div>
+            <a class="b-product-like__link"
+               href="{{ url('shop_favorite_add') }}"
+               data-selector=".like span"
+               data-wish-add
+               data-id="{{ variant.id }}">Сохранить</a>
+        </div>
+    </div>
+
+    <a class="b-product__link" href="{{ url('shop_product_variant_view', ['slug' => variant.slug]) }}">
+        {% if variant.image %}
+            <img src="{{ variant.image.image|imagine_filter('variant_thumb') }}"
+                 alt="{{ product }}" class="b-product__image"/>
+        {% else %}
+            <img src="http://placehold.it/120x120" alt="{{ product }}"
+                 class="b-product__image"/>
+        {% endif %}
+    </a>
+
+    <div class="b-product__info">
+        <p>{{ variant }}</p>
+    </div>
+    <div class="b-product__prices">
+        {% if variant.discount %}
+            <p class="b-product__price b-product__price_old">{{ variant.price|format_price }}</p>
+            <p class="b-product__price b-product__price_new">{{ variant.getTotalPrice()|format_price }}</p>
+        {% else %}
+            <p class="b-product__price b-product__price_new">{{ variant.price|format_price }}</p>
+        {% endif %}
+    </div>
+    <div class="b-product__buttons">
+        <a href="{{ url('shop_cart_add') }}" class="b-button b-button_red b-button_block b-button_medium"
+           data-price-selector=".b-header-settings__link_cart span"
+           data-cart-add
+           data-id="{{ variant.id }}">в корзину</a>
+        <a href="{{ url('rise_cart_fast', ['slug' => variant.slug]) }}"
+           class="b-button b-button_block b-button_white b-button_medium">купить в 1 клик</a>
+    </div>
+</div>

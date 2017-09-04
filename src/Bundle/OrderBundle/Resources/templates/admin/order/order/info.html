@@ -1,0 +1,250 @@
+{% extends request.isXmlHttpRequest() ? "ajax.html" : 'admin/base.html' %}
+
+{% block title %}{{ t('admin.action.info') }} {{ model }}{% endblock %}
+
+{% block content %}
+    <div class="b-content">
+        <h1>{{ model }}</h1>
+
+        <hr>
+
+        <table class="b-table">
+            <thead class="b-table__thead">
+            <tr class="b-table__tr b-table__tr_thead">
+                <th class="b-table__th b-table__th_thead"></th>
+                <th class="b-table__th b-table__th_thead">Значение</th>
+                <th class="b-table__th b-table__th_thead">Действия</th>
+            </tr>
+            </thead>
+            <tbody class="b-table__tbody">
+            <tr class="b-table__tr b-table__tr_tbody">
+                <th class="b-table__th b-table__th_tbody">Статус</th>
+                <td class="b-table__td b-table__td_tbody">{{ model.status }}</td>
+                <td class="b-table__td b-table__td_tbody">
+                    <a href="{{ admin.getAdminUrl('status', ['pk' => model.id]) }}">Изменить</a>
+                </td>
+            </tr>
+            <tr class="b-table__tr b-table__tr_tbody">
+                <th class="b-table__th b-table__th_tbody">Сумма заказа</th>
+                <td class="b-table__td b-table__td_tbody">{{ model.getPriceTotal()|number_format(2, '.', '') }}руб.
+                </td>
+                <td class="b-table__td b-table__td_tbody"></td>
+            </tr>
+            <tr class="b-table__tr b-table__tr_tbody">
+                <th class="b-table__th b-table__th_tbody">Способ оплаты</th>
+                <td class="b-table__td b-table__td_tbody">
+                    {% if model.payment %}
+                        {{ model.payment }}
+                    {% else %}
+                        Не указано
+                    {% endif %}
+                </td>
+                <td class="b-table__td b-table__td_tbody">
+                    <a href="{{ admin.getAdminUrl('payment', ['pk' => model.id]) }}">Изменить</a>
+                </td>
+            </tr>
+            <tr class="b-table__tr b-table__tr_tbody">
+                <th class="b-table__th b-table__th_tbody">Способ доставки</th>
+                <td class="b-table__td b-table__td_tbody">
+                    {% if model.delivery %}
+                        {{ model.delivery }}
+                    {% else %}
+                        Не указано
+                    {% endif %}
+                </td>
+                <td class="b-table__td b-table__td_tbody">
+                    <a href="{{ admin.getAdminUrl('delivery', ['pk' => model.id]) }}">Изменить</a>
+                </td>
+            </tr>
+            <tr class="b-table__tr b-table__tr_tbody">
+                <th class="b-table__th b-table__th_tbody">Сумма доставки</th>
+                <td class="b-table__td b-table__td_tbody">
+                    {% if model.price_delivery %}
+                        {{ model.price_delivery }}%
+                    {% else %}
+                        Не указано
+                    {% endif %}
+                </td>
+                <td class="b-table__td b-table__td_tbody">
+                    <a href="#">Изменить</a>
+                </td>
+            </tr>
+            <tr class="b-table__tr b-table__tr_tbody">
+                <th class="b-table__th b-table__th_tbody">Сумма скидки</th>
+                <td class="b-table__td b-table__td_tbody">
+                    {% if model.discount %}
+                        {{ model.discount }}% ({{ model.price_discount|number_format(2, '.', '') }} руб.)
+                    {% else %}
+                        Не указано
+                    {% endif %}
+                </td>
+                <td class="b-table__td b-table__td_tbody">
+                    <a href="{{ admin.getAdminUrl('discount', ['pk' => model.id]) }}">Изменить</a>
+                </td>
+            </tr>
+            <tr class="b-table__tr b-table__tr_tbody">
+                <th class="b-table__th b-table__th_tbody">Номер отслеживания</th>
+                <td class="b-table__td b-table__td_tbody">
+                    {% if model.track_number %}
+                        {{ model.track_number }}
+                    {% else %}
+                        Не указано
+                    {% endif %}
+                </td>
+                <td class="b-table__td b-table__td_tbody">
+                    <a href="{{ admin.getAdminUrl('trackNumber', ['pk' => model.id]) }}">Изменить</a>
+                </td>
+            </tr>
+            <tr class="b-table__tr b-table__tr_tbody">
+                <th class="b-table__th b-table__th_tbody">Дата создания</th>
+                <td class="b-table__td b-table__td_tbody">
+                    {{ model.created_at }}
+                </td>
+                <td class="b-table__td b-table__td_tbody"></td>
+            </tr>
+            <tr class="b-table__tr b-table__tr_tbody">
+                <th class="b-table__th b-table__th_tbody">Пользователь</th>
+                <td class="b-table__td b-table__td_tbody">
+                    {% if model.user %}
+                        {{ model.user }}
+                    {% else %}
+                        Не указано
+                    {% endif %}
+                </td>
+                <td class="b-table__td b-table__td_tbody">
+                    <a href="{{ admin.getAdminUrl('user', ['pk' => model.id]) }}">Изменить</a>
+                </td>
+            </tr>
+            <tr class="b-table__tr b-table__tr_tbody">
+                <th class="b-table__th b-table__th_tbody">Комментарий</th>
+                <td class="b-table__td b-table__td_tbody">{{ model.comment }}</td>
+                <td class="b-table__td b-table__td_tbody"></td>
+            </tr>
+            </tbody>
+        </table>
+
+        <hr>
+
+        <h3>Клиент</h3>
+
+        <p>Вы можете <a class="b-button" href="{{ admin.getAdminUrl('customerSelect', ['pk' => model.id]) }}">выбрать клиента</a> из
+            существующих или <a class="b-button" href="{{ admin.getAdminUrl('customerCreate', ['pk' => model.id]) }}">создать
+                нового</a>.</p>
+
+        {% if customer %}
+            <table class="b-table">
+                <tbody class="b-table__tbody">
+                <tr class="b-table__tr">
+                    <th class="b-table__th b-table__th_tbody">ФИО:</th>
+                    <td class="b-table__td b-table__td_tbody">{{ customer }}</td>
+                </tr>
+                <tr>
+                    <th class="b-table__th b-table__th_tbody">Номер телефона:</th>
+                    <td class="b-table__td b-table__td_tbody">{{ customer.phone }}</td>
+                </tr>
+                <tr>
+                    <th class="b-table__th b-table__th_tbody">Электронная почта:</th>
+                    <td class="b-table__td b-table__td_tbody">{{ customer.email }}</td>
+                </tr>
+                <tr>
+                    <th class="b-table__th b-table__th_tbody">Адрес:</th>
+                    <td class="b-table__td b-table__td_tbody">{{ customer.zip_code }} {{ customer.country }} {{ customer.region }} {{ customer.city }} {{ customer.address }}</td>
+                </tr>
+                <tr>
+                    <th class="b-table__th b-table__th_tbody">Пользователь:</th>
+                    <td class="b-table__td b-table__td_tbody">{{ customer.user }}</td>
+                </tr>
+                </tbody>
+            </table>
+        {% else %}
+            <p>Клиент не выбран.</p>
+        {% endif %}
+
+        <hr>
+
+        <h3>Товары</h3>
+
+        <a class="b-button"
+           href="{{ admin.getAdminUrl('productAdd', ['pk' => model.id]) }}">Добавить товар</a>
+
+        <table class="b-table">
+            <thead class="b-table__thead">
+            <tr class="b-table__tr b-table__tr_thead">
+                <th class="b-table__th b-table__th_thead"></th>
+                <th class="b-table__th b-table__th_thead">Цена</th>
+                <th class="b-table__th b-table__th_thead">Количество</th>
+                <th class="b-table__th b-table__th_thead">Сумма скидки</th>
+                <th class="b-table__th b-table__th_thead">Итог</th>
+                <th class="b-table__th b-table__th_thead"></th>
+            </tr>
+            </thead>
+            <tbody class="b-table__tbody">
+            {% for product in products %}
+                <tr class="b-table__tr b-table__tr_tbody">
+                    <td class="b-table__td b-table__td_tbody">
+                        <p>{{ product }}</p>
+                        <p class="b-caption">Артикул: {{ product.sku }}</p>
+                        <p>
+                            {% for key, value in product.getParameters() %}
+                                {{ key }}: {{ value }}{% if not loop.last %},{% endif %}
+                            {% endfor %}
+                        </p>
+                    </td>
+                    <td class="b-table__td b-table__td_tbody">{{ product.price|number_format(2, '.', '') }} руб.</td>
+                    <td class="b-table__td b-table__td_tbody">{{ product.quantity }}</td>
+                    <td class="b-table__td b-table__td_tbody">
+                        {% if product.discount > 0 %}
+                            {{ product.price_discount }} ({{ product.discount }})
+                        {% else %}
+                            &mdash;
+                        {% endif %}
+                    </td>
+                    <td class="b-table__td b-table__td_tbody">{{ product.price_total }}</td>
+                    <td class="b-table__td b-table__td_tbody">
+                        <a href="{{ admin.getAdminUrl('productUpdate', ['pk' => model.id, 'product_id' => product.id]) }}">
+                            <i class="icon write"></i>
+                        </a>
+                        <a href="{{ admin.getAdminUrl('productRemove', ['pk' => model.id, 'product_id' => product.id]) }}">
+                            <i class="icon trash"></i>
+                        </a>
+                    </td>
+                </tr>
+                {% if product.comment %}
+                    <tr class="b-table__tr b-table__tr_tbody">
+                        <td class="b-table__td b-table__td_tbody" colspan="7">{{ product.comment }}</td>
+                    </tr>
+                {% endif %}
+            {% endfor %}
+            </tbody>
+        </table>
+
+        <hr>
+
+        <h3>Комментарии</h3>
+
+        {% for comment in comments %}
+            <div class="b-row">
+                <div class="b-col b-col_small_4">
+                    <p>
+                        {% if comment.user %}
+                            {{ comment.user }}
+                        {% else %}
+                            Администратор
+                        {% endif %}
+                    </p>
+                    <p class="b-caption">{{ comment.created_at }}</p>
+                </div>
+                <div class="b-col b-col_small_8">
+                    <p>{{ comment }}</p>
+                    {% if comment.file %}
+                        <a href="{{ asset(comment.file, 'media') }}">{{ comment.file|basename }}</a>
+                    {% endif %}
+                </div>
+            </div>
+        {% endfor %}
+
+        <hr>
+
+        {{ form_render(commentForm)|safe }}
+    </div>
+{% endblock %}

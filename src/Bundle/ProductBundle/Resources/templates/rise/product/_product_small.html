@@ -1,0 +1,20 @@
+<div>
+    <div class="b-product-slider__slide">
+        <a class="b-product-slider__link"
+           href="{{ url('shop_product_variant_view', ['slug' => product_variant.slug]) }}">
+            {% set image = product_variant.getImage() %}
+
+            {% if image %}
+                <img class="b-product-slider__image" src="{{ image.image|imagine_filter('variant_thumb') }}"/>
+            {% else %}
+                <img class="b-product-slider__image" src="http://placehold.it/170x170"/>
+            {% endif %}
+        </a>
+
+        <a class="b-product-slider__name"
+           href="{{ url('shop_product_variant_view', ['slug' => product_variant.slug]) }}">{{ product_variant }}</a>
+        <a class="b-product-slider__price"
+           href="{{ url('shop_product_variant_view', ['slug' => product_variant.slug]) }}">{{ product_variant.getPrice() }}
+            Р</a>
+    </div>
+</div>

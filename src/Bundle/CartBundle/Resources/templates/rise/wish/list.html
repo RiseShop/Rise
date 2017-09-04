@@ -1,0 +1,26 @@
+{% extends "shop/base.html" %}
+
+{% block breadcrumbs %}
+    {% set breadcrumbs = [['name' => 'Избранное']] %}
+    {% parent %}
+{% endblock %}
+
+{% block content %}
+    <div class="b-wrapper">
+        <div class="b-row">
+            <div class="b-col b-col_small_12">
+                <h1 class="b-title">Избранное</h1>
+
+                <ul class="b-product-list">
+                    {% for item in wish %}
+                        <li class="b-product-item b-product-item_five">
+                            {% include "rise/product/_product.html" with ['variant' => item.variant] %}
+                        </li>
+                    {% endfor %}
+                </ul>
+
+                {{ pagination_render(pager)|safe }}
+            </div>
+        </div>
+    </div>
+{% endblock %}

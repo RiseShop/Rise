@@ -1,0 +1,12 @@
+{{ form_start(filterForm)|safe }}
+{% for key, value in filterForm.children %}
+    {% if key == 'submit' %}
+        {% continue %}
+    {% endif %}
+
+    <div class="b-product-sidebar__row">
+        {{ form_row(value)|safe }}
+    </div>
+{% endfor %}
+{{ form_row(filterForm.children.submit)|safe }}
+{{ form_end(filterForm)|safe }}

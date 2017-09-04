@@ -1,0 +1,119 @@
+{% extends "shop/base.html" %}
+
+{% block breadcrumbs %}
+    {% set breadcrumbs = [
+    ['name' => 'Каталог']
+    ] %}
+    {% parent %}
+{% endblock %}
+
+{% block content %}
+    <div class="b-wrapper">
+        <div class="b-row">
+            <div class="b-col b-col_small_8">
+                <div class="b-row">
+                    <div class="b-col b-col_small_3">
+                        <div class="product-slider-nav">
+                            {% if images|length %}
+                                {% for image in images %}
+                                    <div class="slide">
+                                        <img src="{{ image.image|imagine_filter('variant_thumb') }}"
+                                             alt="{{ product }}"/>
+                                    </div>
+                                {% endfor %}
+                            {% else %}
+                                <div class="slide">
+                                    <img src="http://placehold.it/170x170" alt="{{ product }}"/>
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div class="b-col b-col_small_9">
+                        <div class="product-slider">
+                            {% if images|length %}
+                                {% for image in images %}
+                                    <div class="slide">
+                                        <img src="{{ image.image|imagine_filter('product_slider') }}"
+                                             alt="{{ product }}"/>
+                                    </div>
+                                {% endfor %}
+                            {% else %}
+                                <div class="slide">
+                                    <img src="http://placehold.it/560x500" alt="{{ product }}"/>
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                    {% include "rise/product/_related.html" with ['products' => related] %}
+                    {% include "rise/product/_similar.html" with ['products' => similar] %}
+                </div>
+            </div>
+            <div class="b-col b-col_small_4">
+                <div class="product-information">
+                    <p class="b-caption">Артикул: {{ variant.sku }}</p>
+                    <h1 class="b-product__name">{{ product }}</h1>
+                    <div class="product-price">
+                        {% if variant.discount %}
+                            <p class="old-price">{{ variant.price_source }} Р.</p>
+                            <p class="new-price">{{ variant.getTotalPrice() }} Р.</p>
+                        {% else %}
+                            <p class="new-price">{{ variant.getPrice() }} Р.</p>
+                        {% endif %}
+                    </div>
+
+                    {% if values|length > 0 %}
+                        <ul class="b-product-attribute-list">
+                            {% for name, value in values %}
+                                <li>
+                                    {{ name }}: {{ value }}
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
+
+                    {% if variants|length > 0 %}
+                        <div class="b-product-sidebar__block">
+                            <p class="b-product-sidebar__title">Параметры:</p>
+                            <ul class="b-product-size-list">
+                                {% for v in variants %}
+                                    {% for name, value in v.getValues() %}
+                                        {% if value in values %}
+                                            {% continue %}
+                                        {% endif %}
+
+                                        <li class="b-product-size-list__item">
+                                            <a class="b-product-size"
+                                               href="{{ url('shop_product_variant_view', ['slug' => v.slug]) }}">{{ value }}</a>
+                                        </li>
+                                    {% endfor %}
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    {% endif %}
+
+                    <div class="b-product-detail__buttons">
+                        <a href="{{ url('shop_cart_add') }}"
+                           data-price-selector=".b-header-settings__link_cart span"
+                           data-cart-add data-id="{{ variant.id }}"
+                           class="b-button b-button_large b-button_red b-product_button">в корзину</a>
+                        <a href="{{ url('rise_cart_fast', ['slug' => variant.slug]) }}"
+                           class="b-button b-button_white b-button_large b-product_button">купить
+                            в 1 клик</a>
+                    </div>
+                    {% if variant.description %}
+                        <div class="more-layout">
+                            <div class="item-more">
+                                <div class="more-title active">
+                                    <h4>Информация</h4>
+                                </div>
+                                <div class="more-content">
+                                    <p>{{ variant.description }}</p>
+                                </div>
+                            </div>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

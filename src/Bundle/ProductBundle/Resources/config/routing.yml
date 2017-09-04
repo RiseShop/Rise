@@ -1,0 +1,15 @@
+shop_index:
+    path: /
+    defaults: { _controller: ProductBundle:Variant:index }
+
+shop_variant_list:
+    path: /catalog/{slug}
+    defaults: { _controller: ProductBundle:Variant:list }
+
+shop_search:
+    path: /search
+    defaults: { _controller: ProductBundle:Variant:search }
+
+shop_product_variant_view:
+    path: /{slug}
+    defaults: { _controller: ProductBundle:Variant:view }

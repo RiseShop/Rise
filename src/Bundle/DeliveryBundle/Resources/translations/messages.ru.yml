@@ -1,0 +1,3 @@
+delivery.admin.delivery.list: 'Службы доставки'
+delivery.admin.delivery.create: 'Создание службы доставки'
+delivery.admin.delivery.update: 'Редактирование службы доставки: %name%'

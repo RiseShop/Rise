@@ -1,0 +1,40 @@
+{% extends request.isXmlHttpRequest() ? "ajax.html" : "base.html" %}
+
+{% block breadcrumbs %}
+    {% set breadcrumbs = [
+        ['name' => 'Корзина', 'url' => url('shop_cart_list')],
+        ['name' => 'Быстрое оформление заказа']
+    ] %}
+    {% parent %}
+{% endblock %}
+
+{% block content %}
+    <div class="b-wrapper">
+        <div class="b-row">
+            <div class="b-col b-col_small_12">
+                <h1 class="b-title">Быстрое оформление заказа</h1>
+
+                <p>Пожалуйста укажите ваше имя и номер телефона для связи.</p>
+                <p>Мы свяжемся с вами для уточнения деталей заказа.</p>
+                <div class="b-divider b-divider_divider"></div>
+
+                {{ form_start(form)|safe }}
+                <div class="b-form__row">
+                    <div class="b-input">
+                        {{ form_label(form.children.first_name, null, ['label_attr' => ['class' => 'b-input__label']])|safe }}
+                        {{ form_widget(form.children.first_name, ['attr' => ['class' => 'b-input__input']])|safe }}
+                        {{ form_errors(form.children.first_name)|safe }}
+                    </div>
+                </div>
+                <div class="b-form__row">
+                    <div class="b-input">
+                        {{ form_label(form.children.phone, null, ['label_attr' => ['class' => 'b-input__label']])|safe }}
+                        {{ form_widget(form.children.phone, ['attr' => ['class' => 'b-input__input']])|safe }}
+                        {{ form_errors(form.children.phone)|safe }}
+                    </div>
+                </div>
+                {{ form_end(form)|safe }}
+            </div>
+        </div>
+    </div>
+{% endblock %}

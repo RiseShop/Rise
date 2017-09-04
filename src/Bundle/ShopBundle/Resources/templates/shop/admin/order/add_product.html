@@ -1,0 +1,13 @@
+{% extends "admin/admin/info.html" %}
+
+{% block content %}
+    <div class="b-content">
+        <div class="row collapse">
+            <div class="columns small-12">
+                <h1>Добавление товара</h1>
+
+                {{ form_render(form)|safe }}
+            </div>
+        </div>
+    </div>
+{% endblock %}

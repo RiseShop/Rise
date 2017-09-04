@@ -1,0 +1,66 @@
+{% extends "rise/order/wizard/step_base.html" %}
+
+{% block breadcrumbs %}
+    {% set breadcrumbs = [['name' => 'Корзина'], ['name' => 'Шаг 1']] %}
+    {% parent %}
+{% endblock %}
+
+{% block step_content %}
+    <div class="step-content">
+        {{ form_start(form)|safe }}
+        {% for key, child in form %}
+            {% if key == 'next' or key == 'prev' %}
+                {% continue %}
+            {% endif %}
+            {{ form_row(child)|safe }}
+        {% endfor %}
+        <div class="b-order-buttons">
+            <div class="b-order-buttons__prev">&nbsp;</div>
+            <div class="b-order-buttons__next">
+                {{ form_widget(form.children.next)|safe }}
+            </div>
+        </div>
+        {{ form_end(form)|safe }}
+
+        {% comment %}
+        {{ form_start(form)|safe }}
+        <div class="b-form__row">
+            <div class="b-input">
+                {{ form_label(form.children.last_name, null, ['label_attr' => ['class' => 'b-input__label']])|safe }}
+                {{ form_widget(form.children.last_name, ['attr' => ['class' => 'b-input__input']])|safe }}
+                {{ form_errors(form.children.last_name)|safe }}
+            </div>
+        </div>
+        <div class="b-form__row">
+            <div class="b-input">
+                {{ form_label(form.children.first_name, null, ['label_attr' => ['class' => 'b-input__label']])|safe }}
+                {{ form_widget(form.children.first_name, ['attr' => ['class' => 'b-input__input']])|safe }}
+                {{ form_errors(form.children.first_name)|safe }}
+            </div>
+        </div>
+        <div class="b-form__row">
+            <div class="b-input">
+                {{ form_label(form.children.middle_name, null, ['label_attr' => ['class' => 'b-input__label']])|safe }}
+                {{ form_widget(form.children.middle_name, ['attr' => ['class' => 'b-input__input']])|safe }}
+                {{ form_errors(form.children.middle_name)|safe }}
+            </div>
+        </div>
+        <div class="b-form__row">
+            <div class="b-input">
+                {{ form_label(form.children.email, null, ['label_attr' => ['class' => 'b-input__label']])|safe }}
+                {{ form_widget(form.children.email, ['attr' => ['class' => 'b-input__input']])|safe }}
+                {{ form_errors(form.children.email)|safe }}
+            </div>
+        </div>
+        <div class="b-form__row">
+            <div class="b-input">
+                {{ form_label(form.children.phone, null, ['label_attr' => ['class' => 'b-input__label']])|safe }}
+                {{ form_widget(form.children.phone, ['attr' => ['class' => 'b-input__input']])|safe }}
+                {{ form_errors(form.children.phone)|safe }}
+            </div>
+        </div>
+        {{ form_end(form)|safe }}
+        {% endcomment %}
+    </div>
+{% endblock %}
+

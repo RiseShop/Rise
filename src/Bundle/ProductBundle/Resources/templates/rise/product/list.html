@@ -1,0 +1,61 @@
+{% extends "shop/base.html" %}
+
+{% block breadcrumbs %}
+    {% set breadcrumbs = [
+    ['name' => 'Каталог']
+    ] %}
+    {% parent %}
+{% endblock %}
+
+{% block content %}
+    <div class="b-wrapper">
+        <div class="b-row">
+            <div class="b-col b-col_small_12">
+                <h1 class="b-title">Каталог</h1>
+            </div>
+
+            <div class="b-col b-col_small_3">
+                {% include "rise/product/_sidebar.html" %}
+            </div>
+            <div class="b-col b-col_small_9">
+                <div class="b-row">
+                    <div class="b-col b-col_small_8">&nbsp;</div>
+                    <div class="b-col b-col_small_4">
+                        <div class="b-input-group">
+                            <select class="b-input b-input_select"
+                                    name="order" id="sort" onchange="window.location='?order=' + this.value;">
+                                <option value="" {{ request.query.get('order') == '' ? 'selected' : '' }}>По умолчанию
+                                </option>
+                                <option value="price" {{ request.query.get('order') == 'price' ? 'selected' : '' }}>По
+                                    возрастанию
+                                </option>
+                                <option value="-price" {{ request.query.get('order') == '-price' ? 'selected' : '' }}>По
+                                    убыванию
+                                </option>
+                            </select>
+                            <a href="{{ url('shop_index') }}" class="b-button">Очистить</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="b-divider b-divider_divider"></div>
+
+                {% if variants|length %}
+                    <ul class="b-product-list">
+                        {% for variant in variants %}
+                            <li class="b-product-item b-product-item_four">
+                                {% include "rise/product/_product.html" with ['variant' => variant] %}
+                            </li>
+                        {% endfor %}
+                    </ul>
+
+                    <div class="b-divider b-divider_divider"></div>
+
+                    {{ pagination_render(pager)|safe }}
+                {% else %}
+                    <p>Товары не найдены</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+{% endblock %}

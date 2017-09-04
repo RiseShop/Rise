@@ -1,0 +1,10 @@
+{% extends "mail/template.html" %}
+
+{% block content %}
+    <h1>Изменился статус вашего заказа №{{ order.id }}</h1>
+
+    <p>Новый статус:</p>
+    <p><strong>{{ order.status }}</strong></p>
+
+    <p><a class="b-button" href="{{ order_url }}">Перейти к заказу</a></p>
+{% endblock %}

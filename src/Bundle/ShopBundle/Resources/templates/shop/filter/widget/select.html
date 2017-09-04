@@ -1,0 +1,13 @@
+<div class="form-row">
+    <h4 class="form-block-title active">{{ attribute.name }}</h4>
+    <div class="catalog-form-block-content">
+        <div class="checkbox">
+            <select name="filter[{{ attribute.code }}]" id="filter_{{ attribute.code }}">
+                {% for value in values %}
+                    <option {% if value.id in checked %}selected{% endif %}
+                            value="{{ value.id }}">{{ value.value }}</option>
+                {% endfor %}
+            </select>
+        </div>
+    </div>
+</div>

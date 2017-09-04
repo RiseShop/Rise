@@ -1,0 +1,5 @@
+services:
+    rise.bundle.currency.template_library.curreny:
+        class: Rise\Bundle\CurrencyBundle\Library\CurrencyLibrary
+        tags:
+            - { name: template.library }

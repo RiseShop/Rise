@@ -1,0 +1,24 @@
+{% extends "shop/base.html" %}
+
+{% block breadcrumbs %}
+    {% set breadcrumbs = [
+    ['name' => 'Поиск']
+    ] %}
+    {% parent %}
+{% endblock %}
+
+{% block content %}
+    <div class="b-wrapper">
+        <div class="b-row">
+            <div class="b-col b-col_small_12">
+                <h1 class="b-title">Поиск по запросу: {{ request.query.get('q') }}</h1>
+            </div>
+            <div class="b-col b-col_small_3">
+                {% include "rise/product/_sidebar.html" %}
+            </div>
+            <div class="b-col b-col_small_9">
+                <p>По вашему запросу ничего не найдено</p>
+            </div>
+        </div>
+    </div>
+{% endblock %}

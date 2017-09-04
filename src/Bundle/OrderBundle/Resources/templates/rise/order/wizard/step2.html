@@ -1,0 +1,25 @@
+{% extends "rise/order/wizard/step_base.html" %}
+
+{% block step_content %}
+    <div class="step-content">
+        {{ form_start(form)|safe }}
+        <div class="b-form__row">
+            {% for child in form.children.payment.children %}
+                <div class="b-checkbox">
+                    {{ form_widget(child, ['attr' => ['class' => 'b-checkbox__checkbox']])|safe }}
+                    {{ form_label(child, null, ['label_attr' => ['class' => 'b-checkbox__label']])|safe }}
+                </div>
+            {% endfor %}
+        </div>
+        <div class="b-order-buttons">
+            <div class="b-order-buttons__prev">
+                {{ form_widget(form.children.prev)|safe }}
+            </div>
+            <div class="b-order-buttons__next">
+                {{ form_widget(form.children.next)|safe }}
+            </div>
+        </div>
+        {{ form_end(form)|safe }}
+    </div>
+{% endblock %}
+

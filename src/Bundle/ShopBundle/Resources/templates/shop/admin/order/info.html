@@ -1,0 +1,76 @@
+{% extends "admin/admin/info.html" %}
+
+{% block content %}
+    <div class="b-content">
+        <div class="row collapse">
+            <div class="columns small-12">
+                <h1>{{ order }}</h1>
+
+                <div class="row collapse">
+                    <div class="columns small-6">
+                        <p>Сумма заказа: {{ order.price }}</p>
+                        <p>Способ оплаты: {{ order.payment }}</p>
+                        <p>Способ доставки: {{ order.delivery }}</p>
+                        <p>Дата создания: {{ order.created_at }}</p>
+                    </div>
+                    <div class="columns small-6">
+                        {% if order.customer_id %}
+                            {% set customer = order.customer %}
+                            <p>Фамилия Имя Отчество: {{ customer.last_name }} {{ customer.first_name }} {{ customer.middle_name }}</p>
+                            <p>Телефон: {{ customer.phone }}</p>
+                            <p>Электронная почта: {{ customer.email }}</p>
+                            <p>Адрес: {{ customer.country }}, {{ customer.region }}, {{ customer.city }}, {{ customer.index }}, {{ customer.address }}</p>
+                        {% endif %}
+                        <p>
+                            <a class="b-button" href="{{ admin.getAdminUrl('newCustomer', ['pk' => order.id]) }}">Создать клиента</a>
+                            <a class="b-button" href="{{ admin.getAdminUrl('selectCustomer', ['pk' => order.id]) }}">Выбрать клиента</a>
+                        </p>
+                    </div>
+                </div>
+
+                <hr>
+
+                <a href="{{ admin.getAdminUrl('productAdd', ['pk' => order.id]) }}" class="b-button b-button_primary">Добавить товар</a>
+
+                <hr>
+
+                {% if orderProducts|length %}
+                    <table class="b-table">
+                        <thead>
+                        <tr>
+                            <th>Название</th>
+                            <th>Стоимость</th>
+                            <th>Количество</th>
+                            <th>Сумма</th>
+                            <th></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for orderProduct in orderProducts %}
+                            {% set variant = orderProduct.variant %}
+                            <tr>
+                                <td>{{ variant.name }}</td>
+                                <td>{{ variant.price|price }}</td>
+                                <td>{{ orderProduct.quantity }}</td>
+                                <td>{{ orderProduct.price|price }}</td>
+                                <td>
+                                    <a href="#" class="b-button">
+                                        <i class="icon write"></i>
+                                    </a>
+                                    <a href="#" class="b-button">
+                                        <i class="icon trash"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                {% else %}
+                    <div class="b-empty">
+                        <p>Товары отсутствуют</p>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+{% endblock %}

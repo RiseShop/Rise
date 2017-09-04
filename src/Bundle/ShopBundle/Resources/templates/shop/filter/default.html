@@ -1,0 +1,9 @@
+<form action="" class="catalog-form">
+    {% for widget in widgets %}
+        <div class="catalog-form-block">
+            {{ widget.render(request)|safe }}
+        </div>
+    {% endfor %}
+
+    <input type="submit" value="Показать" class="cart-button button"/>
+</form>

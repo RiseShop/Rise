@@ -1,0 +1,20 @@
+{% if products|length > 0 %}
+    <div class="b-col b-col_small_12">
+        <div class="b-product-slider">
+            <div class="b-product-slider__header">
+                <div class="b-product-slider__arrows slider-arrow">
+                    <a href="#" class="slider-prev b-product-slider__arrow b-product-slider__arrow_prev"
+                       data-slider="#likeit-slider"></a>
+                    <a href="#" class="slider-next b-product-slider__arrow b-product-slider__arrow_next"
+                       data-slider="#likeit-slider"></a>
+                </div>
+                <p class="b-product-slider__title">Похожие изделия:</p>
+            </div>
+            <div id="likeit-slider" class="b-product-slider__slider">
+                {% for product in products %}
+                    {% include "rise/product/_product_small.html" with ['product_variant' => product] %}
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+{% endif %}

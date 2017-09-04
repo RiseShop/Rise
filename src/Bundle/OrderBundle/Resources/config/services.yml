@@ -1,0 +1,42 @@
+parameters:
+    rise.order.remove_data_on_order: true
+
+services:
+    rise.bundle.order.wizard.storage:
+        class: Rise\Bundle\OrderBundle\Wizard\Storage
+        arguments: [ '@session' ]
+
+    shop.order.new_handler:
+        class: Rise\Bundle\OrderBundle\AdminHandler\OrderHandler
+
+    rise.bundle.order.event_listener.order:
+        class: Rise\Bundle\OrderBundle\EventListener\OrderListener
+        arguments:
+            - '@mindy.bundle.mail.helper.mail'
+            - '@router'
+        tags:
+            - { name: kernel.event_listener, event: order.create, method: onCreate }
+            - { name: kernel.event_listener, event: order.change_status, method: onChangeStatus }
+            - { name: kernel.event_listener, event: order.track_number, method: onTrackNumber }
+
+    rise.bundle.order.admin.status:
+        class: Rise\Bundle\OrderBundle\Admin\StatusAdmin
+        tags:
+            - { name: admin.admin, slug: rise_order_status }
+
+    rise.bundle.order.admin.customer:
+        class: Rise\Bundle\OrderBundle\Admin\CustomerAdmin
+        tags:
+            - { name: admin.admin, slug: rise_order_customer }
+
+    rise.bundle.order.admin.order:
+        class: Rise\Bundle\OrderBundle\Admin\OrderAdmin
+        tags:
+            - { name: admin.admin, slug: rise_order_order }
+
+    rise.bundle.order.form.wizard.step1form:
+        class: Rise\Bundle\OrderBundle\Form\Wizard\Step1FormType
+        arguments:
+            - '@security.token_storage'
+        tags:
+            - { name: form.type }

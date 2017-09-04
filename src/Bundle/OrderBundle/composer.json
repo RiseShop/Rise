@@ -1,0 +1,6 @@
+{
+  "name": "rise/order-bundle",
+  "require": {
+    "ramsey/uuid": "~3.0"
+  }
+}

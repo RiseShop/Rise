@@ -1,0 +1,118 @@
+{% extends "admin/admin/info.html" %}
+
+
+{% block content %}
+    <div class="b-content">
+        <h1>{{ t('admin.action.info') }} {{ model }}</h1>
+
+        <p>
+            <a href="{{ admin.getAdminUrl('update', ['pk' => model.pk]) }}"
+               class="b-button">
+                {{ t('admin.action.update') }}
+            </a>
+            <a href="{{ admin.getAdminUrl('print') }}?pk={{ model.pk }}" target="_blank"
+               class="window-open b-button tiny basic print-button">
+                <i class="icon print"></i> {{ t('admin.print') }}
+            </a>
+            {% if method_exists(model, 'getAbsoluteUrl') %}
+                <a href="{{ model.getAbsoluteUrl() }}" target="_blank"
+                   class="b-button tiny basic">
+                    {{ t('admin.open_at_site') }}
+                </a>
+            {% endif %}
+        </p>
+
+        {% include admin.findTemplate("_info_table.html") %}
+
+        <hr>
+
+        <h3>Изображения</h3>
+
+        <div id="dropzone">{{ t('file.drop_zone') }}</div>
+        <div id="progress" class="hide">
+            <div class="progress-state">0%</div>
+        </div>
+
+        <div class="file-manager__upload">
+            <p><label for="fileupload">{{ t('file.upload_files') }}</label></p>
+            <input class="fileupload"
+                   type="file" name="images[]"
+                   data-url="{{ admin.getAdminUrl('imageUpload', ['pk' => model.pk]) }}"
+                   multiple>
+        </div>
+
+        <hr>
+
+        <ul class="b-image-list">
+            {% for image in images %}
+                <li>
+                    <a target="_blank" href="{{ asset(image.image, 'media') }}">
+                        <img src="{{ image.image|imagine_filter('admin_image') }}" alt=""/>
+                    </a>
+                </li>
+            {% endfor %}
+        </ul>
+
+        <hr>
+
+        <h3>Категории</h3>
+
+        {% if categories %}
+            {% for category in categories %}
+                <p>{{ category }}</p>
+            {% endfor %}
+        {% else %}
+            <p>Категории отсутствуют. Товар не находится ни в одной категории.</p>
+        {% endif %}
+
+        <hr>
+
+        <h3>Варианты товара</h3>
+
+        <a href="{{ url('admin_dispatch', ['action' => 'create', 'admin' => 'rise_product_variant', 'product_id' => model.id]) }}"
+           class="b-button">Добавить вариант</a>
+
+        {% if variants %}
+            <table>
+                <thead>
+                <tr>
+                    <th>Название</th>
+                    <th>Цена</th>
+                    <th>Вес</th>
+                    <th>SKU</th>
+                    <th>Количество</th>
+                    <th>Доступно для продажи</th>
+                    <th>Статус</th>
+                    <th>Контроль остатков</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for variant in variants %}
+                    <tr>
+                        <td>{{ variant }}</td>
+                        <td>{{ variant.price }}</td>
+                        <td>{{ variant.weight }}</td>
+                        <td>{{ variant.sku }}</td>
+                        <td>{{ variant.quantity }}</td>
+                        <td>{{ variant.available_for_sale }}</td>
+                        <td>{{ variant.inventory_tracking }}</td>
+                    </tr>
+                    {% set values = variant.values.all() %}
+                    {% if values|length %}
+                        <tr>
+                            <td>Параметры:</td>
+                            <td colspan="6">
+                                {% for value in values %}
+                                    <p>{{ value.attribute }}: {{ value }}</p>
+                                {% endfor %}
+                            </td>
+                        </tr>
+                    {% endif %}
+                {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+            <p>{{ t('shop.admin.product.info.variations_empty') }}</p>
+        {% endif %}
+    </div>
+{% endblock %}

@@ -1,0 +1,27 @@
+product.admin.attribute.create: 'Создание аттрибута'
+product.admin.attribute.list: 'Список аттрибутов'
+product.admin.attribute.update: 'Редактирование аттрибута: %name%'
+
+product.admin.category.list: 'Категории товаров'
+product.admin.category.create: 'Создание категории'
+product.admin.category.update: 'Редактирование категории: %name%'
+
+product.admin.product.list: 'Товары'
+product.admin.product.create: 'Создание товара'
+product.admin.product.update: 'Редактирование товара: %name%'
+
+product.admin.discount.list: 'Скидки'
+product.admin.discount.create: 'Создание скидки'
+product.admin.discount.update: 'Редактирование скидки: %name%'
+
+product.admin.collection.list: 'Коллекции'
+product.admin.collection.create: 'Создание коллекции'
+product.admin.collection.update: 'Редактирование коллекции: %name%'
+
+product.admin.value.list: 'Список значений'
+product.admin.value.create: 'Добавление значения'
+product.admin.value.update: 'Редактирование значения: %name%'
+
+product.admin.entity.list: 'Список сущностей'
+product.admin.entity.create: 'Добавление сущности'
+product.admin.entity.update: 'Редактирование сущности: %name%'

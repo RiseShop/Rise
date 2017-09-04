@@ -1,0 +1,28 @@
+<div class="form-row">
+    <h4 class="form-block-title active">Вид изделия</h4>
+    <div class="catalog-form-block-content">
+        {% for category in categories %}
+            <div class="checkbox">
+                <input type="checkbox" name="filter[category][]"
+                       value="{{ category.id }}"
+                       {% if category.id in checked %}checked{% endif %}
+                       id="category-{{ category.id }}">
+                <label for="category-{{ category.id }}">{{ category.name }}</label>
+            </div>
+
+            {% if category.items %}
+                <div class="checkbox-inner">
+                    {% for child in category.items %}
+                        <div class="checkbox">
+                            <input type="checkbox" name="filter[category][]"
+                                   value="{{ child.id }}"
+                                   {% if child.id in checked %}checked{% endif %}
+                                   id="category-{{ child.id }}">
+                            <label for="category-{{ child.id }}">{{ child.name }}</label>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        {% endfor %}
+    </div>
+</div>

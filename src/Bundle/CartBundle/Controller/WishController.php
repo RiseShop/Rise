@@ -21,7 +21,13 @@ class WishController extends Controller
 {
     public function listAction(Request $request)
     {
-        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+        if (false === $this->isGranted('IS_AUTHENTICATED_FULLY')) {
+            if ($request->isXmlHttpRequest()) {
+                return $this->json([
+                    'error' => 'Требуется авторизация'
+                ]);
+            }
+        }
 
         $user = $this->getUser();
 
@@ -69,7 +75,7 @@ class WishController extends Controller
             ]);
         }
 
-        return $this->redirectToRoute('shop_favorite_list');
+        return $this->redirectToRoute('rise_wish_list');
     }
 
     public function addAction(Request $request)
@@ -78,6 +84,7 @@ class WishController extends Controller
             if ($this->isAcceptJson($request)) {
                 return $this->json([
                     'status' => false,
+                    'error' => 'Требуется авторизация',
                     'html' => $this->renderTemplate('rise/wish/auth_required.html'),
                 ]);
             }
@@ -122,12 +129,13 @@ class WishController extends Controller
             ]);
 
             return $this->json([
+                'count' => Wish::objects()->filter(['user' => $this->getUser()])->count(),
                 'status' => true,
                 'html' => $html,
             ]);
         }
 
-        return $this->redirectToRoute('shop_favorite_list');
+        return $this->redirectToRoute('rise_wish_list');
     }
 
     /**

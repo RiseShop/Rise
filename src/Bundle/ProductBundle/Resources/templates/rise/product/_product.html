@@ -6,8 +6,8 @@
         <div class="b-product-like">
             <div class="b-product-like__like"></div>
             <a class="b-product-like__link"
-               href="{{ url('shop_favorite_add') }}"
-               data-selector=".like span"
+               href="{{ url('rise_wish_add') }}"
+               data-selector=".b-header-settings__link_like span"
                data-wish-add
                data-id="{{ variant.id }}">Сохранить</a>
         </div>
@@ -35,7 +35,7 @@
         {% endif %}
     </div>
     <div class="b-product__buttons">
-        <a href="{{ url('shop_cart_add') }}" class="b-button b-button_red b-button_block b-button_medium"
+        <a href="{{ url('rise_cart_add') }}" class="b-button b-button_red b-button_block b-button_medium"
            data-price-selector=".b-header-settings__link_cart span"
            data-cart-add
            data-id="{{ variant.id }}">в корзину</a>

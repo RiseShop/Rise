@@ -257,7 +257,7 @@ class Variant extends Model implements ProductInterface
     {
         $attributes = [];
         foreach ($this->values->all() as $value) {
-            $attributes[$value->attribute->name] = $value->value;
+            $attributes[$value->attr->name] = $value->value;
         }
 
         return $attributes;

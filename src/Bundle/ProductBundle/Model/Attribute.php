@@ -39,7 +39,7 @@ class Attribute extends Model
                 'editable' => false,
                 'class' => HasManyField::class,
                 'modelClass' => Value::class,
-                'link' => ['attribute_id', 'id'],
+                'link' => ['attr_id', 'id'],
                 'verboseName' => 'Значение',
             ],
             'entities' => [

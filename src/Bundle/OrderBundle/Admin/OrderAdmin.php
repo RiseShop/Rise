@@ -17,6 +17,7 @@ use Rise\Bundle\OrderBundle\EventListener\OrderTrackNumberEvent;
 use Rise\Bundle\OrderBundle\Form\CommentForm;
 use Rise\Bundle\OrderBundle\Form\CustomerForm;
 use Rise\Bundle\OrderBundle\Form\Order\CustomerSelectForm;
+use Rise\Bundle\OrderBundle\Form\Order\PriceDeliveryForm;
 use Rise\Bundle\OrderBundle\Form\Order\DeliveryForm;
 use Rise\Bundle\OrderBundle\Form\Order\DiscountForm;
 use Rise\Bundle\OrderBundle\Form\Order\OrderProductForm;
@@ -35,6 +36,20 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 class OrderAdmin extends AbstractModelAdmin
 {
     public $columns = ['customer', 'status_id', 'delivery', 'payment', 'price', 'created_at'];
+
+    public $permissions = [
+        'update' => false
+    ];
+
+    public function getVerboseName($column)
+    {
+        switch ($column) {
+            case 'price':
+                return 'Сумма';
+        }
+
+        return parent::getVerboseName($column);
+    }
 
     /**
      * @return string model class name
@@ -72,7 +87,72 @@ class OrderAdmin extends AbstractModelAdmin
         return $this->render($this->findTemplate('change_status.html'), [
             'order' => $order,
             'form' => $form->createView(),
+            'breadcrumbs' => $this->fetchBreadcrumbs($request, $order, 'status')
         ]);
+    }
+
+    public function getCustomBreadrumbs(Request $request, ModelInterface $model, $action)
+    {
+        $breadcrumbs = parent::getCustomBreadrumbs($request, $model, $action);
+
+        switch ($action) {
+            case 'status':
+                $breadcrumbs = array_merge($breadcrumbs, [
+                    ['name' => (string)$model, 'url' => $this->getAdminUrl('info', ['pk' => $model->pk])],
+                    ['name' => 'Изменение статуса заказа']
+                ]);
+                break;
+            case 'payment':
+                $breadcrumbs = array_merge($breadcrumbs, [
+                    ['name' => (string)$model, 'url' => $this->getAdminUrl('info', ['pk' => $model->pk])],
+                    ['name' => 'Изменение способа оплаты']
+                ]);
+                break;
+            case 'delivery':
+                $breadcrumbs = array_merge($breadcrumbs, [
+                    ['name' => (string)$model, 'url' => $this->getAdminUrl('info', ['pk' => $model->pk])],
+                    ['name' => 'Изменение способа доставки']
+                ]);
+                break;
+            case 'track_number':
+                $breadcrumbs = array_merge($breadcrumbs, [
+                    ['name' => (string)$model, 'url' => $this->getAdminUrl('info', ['pk' => $model->pk])],
+                    ['name' => 'Изменение номера отслеживания']
+                ]);
+                break;
+            case 'product_add':
+                $breadcrumbs = array_merge($breadcrumbs, [
+                    ['name' => (string)$model, 'url' => $this->getAdminUrl('info', ['pk' => $model->pk])],
+                    ['name' => 'Добавление товара к заказу']
+                ]);
+                break;
+            case 'product_update':
+                $breadcrumbs = array_merge($breadcrumbs, [
+                    ['name' => (string)$model, 'url' => $this->getAdminUrl('info', ['pk' => $model->pk])],
+                    ['name' => 'Изменение товара в заказе']
+                ]);
+                break;
+            case 'product_remove':
+                $breadcrumbs = array_merge($breadcrumbs, [
+                    ['name' => (string)$model, 'url' => $this->getAdminUrl('info', ['pk' => $model->pk])],
+                    ['name' => 'Удаление товара из заказа']
+                ]);
+                break;
+            case 'discount':
+                $breadcrumbs = array_merge($breadcrumbs, [
+                    ['name' => (string)$model, 'url' => $this->getAdminUrl('info', ['pk' => $model->pk])],
+                    ['name' => 'Изменение скидки']
+                ]);
+                break;
+            case 'price_delivery':
+                $breadcrumbs = array_merge($breadcrumbs, [
+                    ['name' => (string)$model, 'url' => $this->getAdminUrl('info', ['pk' => $model->pk])],
+                    ['name' => 'Изменение стоимости доставки']
+                ]);
+                break;
+        }
+
+        return $breadcrumbs;
     }
 
     public function deliveryAction(Request $request)
@@ -103,6 +183,7 @@ class OrderAdmin extends AbstractModelAdmin
         return $this->render($this->findTemplate('delivery_method.html'), [
             'order' => $order,
             'form' => $form->createView(),
+            'breadcrumbs' => $this->fetchBreadcrumbs($request, $order, 'delivery')
         ]);
     }
 
@@ -134,6 +215,7 @@ class OrderAdmin extends AbstractModelAdmin
         return $this->render($this->findTemplate('payment_gateway.html'), [
             'order' => $order,
             'form' => $form->createView(),
+            'breadcrumbs' => $this->fetchBreadcrumbs($request, $order, 'payment')
         ]);
     }
 
@@ -165,6 +247,39 @@ class OrderAdmin extends AbstractModelAdmin
         return $this->render($this->findTemplate('discount.html'), [
             'order' => $order,
             'form' => $form->createView(),
+            'breadcrumbs' => $this->fetchBreadcrumbs($request, $order, 'discount')
+        ]);
+    }
+
+    public function priceDeliveryAction(Request $request)
+    {
+        $order = Order::objects()->get([
+            'pk' => $request->query->getInt('pk'),
+        ]);
+        if (null === $order) {
+            throw new NotFoundHttpException();
+        }
+
+        $form = $this->createForm(PriceDeliveryForm::class, $order, [
+            'method' => 'POST',
+            'action' => $this->getAdminUrl('priceDelivery', ['pk' => $order->id]),
+        ]);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $order = $form->getData();
+            if (false === $order->save()) {
+                throw new \RuntimeException();
+            }
+
+            return $this->redirect($this->getAdminUrl('info', [
+                'pk' => $order->id,
+            ]));
+        }
+
+        return $this->render($this->findTemplate('price_delivery.html'), [
+            'order' => $order,
+            'form' => $form->createView(),
+            'breadcrumbs' => $this->fetchBreadcrumbs($request, $order, 'price_delivery')
         ]);
     }
 
@@ -203,6 +318,7 @@ class OrderAdmin extends AbstractModelAdmin
         return $this->render($this->findTemplate('track_number.html'), [
             'order' => $order,
             'form' => $form->createView(),
+            'breadcrumbs' => $this->fetchBreadcrumbs($request, $order, 'track_number')
         ]);
     }
 
@@ -294,6 +410,7 @@ class OrderAdmin extends AbstractModelAdmin
             $variant = $raw['variant'];
 
             $product = new OrderProduct([
+                'order' => $order,
                 'variant' => $variant,
                 'discount' => $raw['discount'],
                 'quantity' => $raw['quantity'],
@@ -316,6 +433,7 @@ class OrderAdmin extends AbstractModelAdmin
         return $this->render($this->findTemplate('product_add.html'), [
             'order' => $order,
             'form' => $form->createView(),
+            'breadcrumbs' => $this->fetchBreadcrumbs($request, $order, 'product_add')
         ]);
     }
 
@@ -368,6 +486,13 @@ class OrderAdmin extends AbstractModelAdmin
         }
 
         throw new \RuntimeException('Failed to save order');
+    }
+
+    public function updateAction(Request $request)
+    {
+        return $this->redirect($this->getAdminUrl('info', [
+            'pk' => $request->query->get('pk')
+        ]));
     }
 
     public function infoAction(Request $request)
@@ -443,6 +568,9 @@ class OrderAdmin extends AbstractModelAdmin
 
         return $this->render($this->findTemplate('product_delete.html'), [
             'form' => $form->createView(),
+            'order' => $order,
+            'product' => $product,
+            'breadcrumbs' => $this->fetchBreadcrumbs($request, $order, 'product_remove')
         ]);
     }
 
@@ -469,6 +597,7 @@ class OrderAdmin extends AbstractModelAdmin
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $product = $form->getData();
+            $product->name = (string)$product->variant;
             $product->save();
 
             return $this->redirect($this->getAdminUrl('info', [
@@ -476,8 +605,9 @@ class OrderAdmin extends AbstractModelAdmin
             ]));
         }
 
-        return $this->render($this->findTemplate('product_delete.html'), [
+        return $this->render($this->findTemplate('product_update.html'), [
             'form' => $form->createView(),
+            'breadcrumbs' => $this->fetchBreadcrumbs($request, $order, 'product_update')
         ]);
     }
 

@@ -38,26 +38,36 @@ class Cart extends Model implements CartStorageInterface
                 'class' => ForeignField::class,
                 'modelClass' => User::class,
                 'null' => true,
+                'verboseName' => 'Пользователь'
             ],
             'session_id' => [
                 'class' => CharField::class,
                 'editable' => false,
                 'length' => 32,
+                'verboseName' => 'ID сессии'
             ],
             'positions' => [
                 'class' => HasManyField::class,
                 'modelClass' => Position::class,
                 'link' => ['cart_id', 'id'],
+                'verboseName' => 'Позиции'
             ],
             'is_active' => [
                 'class' => BooleanField::class,
                 'default' => false,
+                'verboseName' => 'Активно'
             ],
             'created_at' => [
                 'class' => DateTimeField::class,
                 'autoNowAdd' => true,
+                'verboseName' => 'Дата создания'
             ],
         ];
+    }
+
+    public function __toString()
+    {
+        return sprintf("Корзина покупателя №%s от %s", $this->id, $this->created_at);
     }
 
     /*

@@ -1,5 +1,10 @@
-{{ order }}
+{% extends request.isXmlHttpRequest() ? "ajax.html" : 'admin/base.html' %}
 
-<hr>
+{% block title %}{{ t('admin.action.info') }} {{ model }}{% endblock %}
 
-{{ form_render(form)|safe }}
+{% block content %}
+    <div class="b-content">
+        <h1>Изменение скидки: {{ order }}</h1>
+        {{ form_render(form)|safe }}
+    </div>
+{% endblock %}

@@ -1,1 +1,10 @@
-{{ form_render(form)|safe }}
+{% extends request.isXmlHttpRequest() ? "ajax.html" : 'admin/base.html' %}
+
+{% block title %}{{ t('admin.action.info') }} {{ model }}{% endblock %}
+
+{% block content %}
+    <div class="b-content">
+        <h1>Удаление товара: {{ product }}</h1>
+        {{ form_render(form)|safe }}
+    </div>
+{% endblock %}

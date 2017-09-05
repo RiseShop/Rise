@@ -16,7 +16,15 @@ use Rise\Bundle\CartBundle\Model\Cart;
 
 class CartAdmin extends AbstractModelAdmin
 {
-    public $columns = ['user', 'session_id', 'is_active', 'created_at'];
+    public $columns = ['user', 'session_id', 'created_at'];
+
+    public $defaultOrder = ['-id'];
+
+    public $permissions = [
+        'update' => false,
+        'create' => false,
+        'remove' => false
+    ];
 
     /**
      * @return string model class name

@@ -39,6 +39,9 @@ class CartLibrary extends Library
             'cart' => function () {
                 return $this->cart;
             },
+            'unserialize' => function ($value) {
+                return unserialize($value);
+            },
         ];
     }
 

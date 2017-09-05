@@ -11,7 +11,7 @@
         <table class="b-table">
             <thead class="b-table__thead">
             <tr class="b-table__tr b-table__tr_thead">
-                <th class="b-table__th b-table__th_thead"></th>
+                <th></th>
                 <th class="b-table__th b-table__th_thead">Значение</th>
                 <th class="b-table__th b-table__th_thead">Действия</th>
             </tr>
@@ -60,13 +60,13 @@
                 <th class="b-table__th b-table__th_tbody">Сумма доставки</th>
                 <td class="b-table__td b-table__td_tbody">
                     {% if model.price_delivery %}
-                        {{ model.price_delivery }}%
+                        {{ model.price_delivery }} р.
                     {% else %}
                         Не указано
                     {% endif %}
                 </td>
                 <td class="b-table__td b-table__td_tbody">
-                    <a href="#">Изменить</a>
+                    <a href="{{ admin.getAdminUrl('priceDelivery', ['pk' => model.id]) }}">Изменить</a>
                 </td>
             </tr>
             <tr class="b-table__tr b-table__tr_tbody">
@@ -127,10 +127,6 @@
 
         <h3>Клиент</h3>
 
-        <p>Вы можете <a class="b-button" href="{{ admin.getAdminUrl('customerSelect', ['pk' => model.id]) }}">выбрать клиента</a> из
-            существующих или <a class="b-button" href="{{ admin.getAdminUrl('customerCreate', ['pk' => model.id]) }}">создать
-                нового</a>.</p>
-
         {% if customer %}
             <table class="b-table">
                 <tbody class="b-table__tbody">
@@ -156,7 +152,14 @@
                 </tr>
                 </tbody>
             </table>
+
+            <p>Вы можете <a href="{{ admin.getAdminUrl('customerSelect', ['pk' => model.id]) }}">выбрать нового клиента</a> из
+                существующих или <a href="{{ admin.getAdminUrl('customerCreate', ['pk' => model.id]) }}">создать</a>.</p>
         {% else %}
+            <p>Вы можете <a class="b-button" href="{{ admin.getAdminUrl('customerSelect', ['pk' => model.id]) }}">выбрать клиента</a> из
+                существующих или <a class="b-button" href="{{ admin.getAdminUrl('customerCreate', ['pk' => model.id]) }}">создать
+                    нового</a>.</p>
+
             <p>Клиент не выбран.</p>
         {% endif %}
 
@@ -170,7 +173,7 @@
         <table class="b-table">
             <thead class="b-table__thead">
             <tr class="b-table__tr b-table__tr_thead">
-                <th class="b-table__th b-table__th_thead"></th>
+                <th class="b-table__th b-table__th_thead">Товар</th>
                 <th class="b-table__th b-table__th_thead">Цена</th>
                 <th class="b-table__th b-table__th_thead">Количество</th>
                 <th class="b-table__th b-table__th_thead">Сумма скидки</th>
@@ -202,10 +205,10 @@
                     <td class="b-table__td b-table__td_tbody">{{ product.price_total }}</td>
                     <td class="b-table__td b-table__td_tbody">
                         <a href="{{ admin.getAdminUrl('productUpdate', ['pk' => model.id, 'product_id' => product.id]) }}">
-                            <i class="icon write"></i>
+                            Изменить
                         </a>
                         <a href="{{ admin.getAdminUrl('productRemove', ['pk' => model.id, 'product_id' => product.id]) }}">
-                            <i class="icon trash"></i>
+                            Удалить
                         </a>
                     </td>
                 </tr>

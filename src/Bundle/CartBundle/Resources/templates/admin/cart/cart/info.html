@@ -1,0 +1,54 @@
+{% extends request.isXmlHttpRequest() ? "ajax.html" : 'admin/base.html' %}
+
+{% block title %}{{ t('admin.action.info') }} {{ model }}{% endblock %}
+
+{% block content %}
+    <div class="b-content">
+        <h1>{{ model }}</h1>
+
+        <div class="b-block-grid b-block-grid_small_4">
+            <div class="b-block-grid__item">
+                <div class="b-info__label">Пользователь:</div>
+                <div class="b-info__text">{{ model.user ? model.user : 'Гость' }}</div>
+            </div>
+            <div class="b-block-grid__item">
+                <div class="b-info__label">Позиций:</div>
+                <div class="b-info__text">{{ model.positions.count() }}</div>
+            </div>
+            <div class="b-block-grid__item">
+                <div class="b-info__label">Активно:</div>
+                <div class="b-info__text">{{ model.is_active ? 'Да' : 'Нет' }}</div>
+            </div>
+            <div class="b-block-grid__item">
+                <div class="b-info__label">Дата создания:</div>
+                <div class="b-info__text">{{ model.created_at }}</div>
+            </div>
+        </div>
+
+        <div class="b-divider b-divider_divider"></div>
+
+        <table class="b-table">
+            <thead class="b-table__thead">
+            <tr class="b-table__tr b-table__tr_thead">
+                <th class="b-table__th b-table__th_thead">Товар</th>
+                <th class="b-table__th b-table__th_thead">Цена</th>
+                <th class="b-table__th b-table__th_thead">Количество</th>
+                <th class="b-table__th b-table__th_thead"></th>
+            </tr>
+            </thead>
+            <tbody class="b-table__tbody">
+            {% for position in model.positions.all() %}
+                {% set product = position.variant_serialized|unserialize %}
+                <tr class="b-table__tr b-table__tr_tbody">
+                    <td class="b-table__td b-table__td_tbody">
+                        <p>{{ product }}</p>
+                        <p class="b-caption">Артикул: {{ product.sku }}</p>
+                    </td>
+                    <td class="b-table__td b-table__td_tbody">{{ product.price|number_format(2, '.', '') }} руб.</td>
+                    <td class="b-table__td b-table__td_tbody">{{ product.quantity }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}

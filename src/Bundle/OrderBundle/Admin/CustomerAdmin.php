@@ -18,6 +18,10 @@ class CustomerAdmin extends AbstractModelAdmin
 {
     public $columns = ['id', 'last_name', 'first_name', 'middle_name', 'phone', 'email'];
 
+    public $permissions = [
+        'info' => false,
+    ];
+
     /**
      * @return string model class name
      */

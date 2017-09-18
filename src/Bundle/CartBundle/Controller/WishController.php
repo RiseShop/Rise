@@ -26,10 +26,13 @@ class WishController extends Controller
                 return $this->json([
                     'error' => 'Требуется авторизация'
                 ]);
+            } else {
+                throw $this->createAccessDeniedException('Требуется авторизация');
             }
         }
 
         $user = $this->getUser();
+
 
         $qs = Wish::objects()
             ->filter(['user' => $user])
